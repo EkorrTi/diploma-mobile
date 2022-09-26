@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "747577166955",
+    "project_id": "diploma-work-d1ada",
+    "storage_bucket": "diploma-work-d1ada.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:747577166955:android:158d7e3d8df7b1a4df352e",
+        "android_client_info": {
+          "package_name": "com.example.diploma"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "747577166955-o5vaj6u032cu2dujlaha2vcbgf55gud2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJpH2ey-c8Dysd2KekJjPmXZJSPU8tTww"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "747577166955-o5vaj6u032cu2dujlaha2vcbgf55gud2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
