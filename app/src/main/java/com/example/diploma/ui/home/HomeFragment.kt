@@ -8,7 +8,11 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.example.diploma.R
 import com.example.diploma.databinding.FragmentHomeBinding
+import com.example.diploma.network.SecuredLoginRequest
+import com.example.diploma.network.gson
 
 class HomeFragment : Fragment() {
 
@@ -32,6 +36,8 @@ class HomeFragment : Fragment() {
         homeViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
+
+        textView.text = gson.toJson( SecuredLoginRequest(listOf(1,1,1,1,1), listOf(2,2,2,2,2)) )
 
         val button: Button = binding.sendGetButton
         button.setOnClickListener { homeViewModel.get() }

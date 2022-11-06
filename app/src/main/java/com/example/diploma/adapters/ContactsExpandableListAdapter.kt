@@ -10,10 +10,15 @@ import android.widget.TextView
 import com.example.diploma.R
 
 class ContactsExpandableListAdapter(
-    val context: Context,
-    val listTitle: List<String>,
-    val listDetail: HashMap<String, List<String>>
+    private val context: Context
 ): BaseExpandableListAdapter() {
+    private var listTitle: List<String> = emptyList()
+    var listDetail: HashMap<String, List<String>> = hashMapOf()
+        set(value) {
+            field = value
+            listTitle = value.keys.toList()
+            notifyDataSetChanged()
+        }
 
     override fun getGroupCount(): Int { return listTitle.size }
 
@@ -64,4 +69,5 @@ class ContactsExpandableListAdapter(
     }
 
     override fun isChildSelectable(p0: Int, p1: Int): Boolean { return true }
+
 }
