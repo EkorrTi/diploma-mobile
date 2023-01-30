@@ -37,8 +37,6 @@ class HomeFragment : Fragment() {
             textView.text = it
         }
 
-        textView.text = gson.toJson( SecuredLoginRequest(listOf(1,1,1,1,1), listOf(2,2,2,2,2)) )
-
         val button: Button = binding.sendGetButton
         button.setOnClickListener { homeViewModel.get() }
 

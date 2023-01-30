@@ -16,7 +16,7 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 import java.util.concurrent.TimeUnit
 
-private const val BASE_URL = "https://api.publicapis.org"
+private const val BASE_URL = "http://10.0.2.2:8080"
 
 val gson: Gson = GsonBuilder()
     .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
@@ -38,6 +38,7 @@ private val retrofit = Retrofit.Builder()
 
 var token: String = ""
     get() = "Bearer $field"
+    set
 
 object ApiServiceObject {
     val retrofitService: ApiService by lazy {
@@ -46,10 +47,7 @@ object ApiServiceObject {
 }
 
 interface ApiService {
-    @GET("/entries")
-    suspend fun get(): Response
-
-    @POST("")
+    @POST("/login")
     suspend fun postLogin(
         @Body securedLoginRequest: SecuredLoginRequest
     ): String
@@ -104,7 +102,3 @@ data class SecuredLoginRequest(
         return result
     }
 }
-
-data class Response(
-    val count: Int
-)

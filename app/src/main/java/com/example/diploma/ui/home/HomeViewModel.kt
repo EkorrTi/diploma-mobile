@@ -20,7 +20,7 @@ class HomeViewModel : ViewModel() {
     fun get(){
         viewModelScope.launch {
             try {
-                _response.value = ApiServiceObject.retrofitService.get().toString()
+//                _response.value = ApiServiceObject.retrofitService.postLogin()
                 Log.i("API GET", "got GET request")
             } catch (e: Exception) { Log.w("API GET", e.toString()) }
         }

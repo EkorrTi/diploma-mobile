@@ -27,14 +27,23 @@ class LoginViewModel : ViewModel() {
         viewModelScope.launch {
             val securedLoginRequest = encodedRequest(username, password)
 
+            Log.i("API Login","Sent data: $securedLoginRequest")
+
             try {
+                Log.i("API Login","login started")
                 _response.value = ApiServiceObject.retrofitService.postLogin(securedLoginRequest)
                 Log.i("API Login", "Login successful, token = ${_response.value}")
             } catch (e: SocketTimeoutException) { throw e }
-            catch (e: Exception) { Log.w("API GET", e.toString()) }
+            catch (e: Exception) { Log.w("API Login", e.toString()) }
         }
     }
 
+    /**
+     * Encodes user credentials before sending
+     * @param username Email
+     * @param password Password
+     * @return [SecuredLoginRequest]
+     * */
     private fun encodedRequest(username: String, password: String): SecuredLoginRequest{
         fun encode(value: String): List<Byte> {
             if (value.isEmpty()) { throw Error("Cannot encode empty string") }
