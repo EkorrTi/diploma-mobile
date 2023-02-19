@@ -9,4 +9,5 @@ data class ContactsResponse(
     @PrimaryKey
     val id: Int = 1,
     val dataMap: HashMap<String, List<Worker>>,
+    val workerList: List<Worker>,
 )

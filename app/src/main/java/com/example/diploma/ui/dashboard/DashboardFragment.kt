@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.diploma.R
 import com.example.diploma.databinding.FragmentDashboardBinding
@@ -14,6 +15,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class DashboardFragment : Fragment() {
 
     private var _binding: FragmentDashboardBinding? = null
+    private val viewModel: DashboardViewModel by viewModels()
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -24,19 +26,18 @@ class DashboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel = ViewModelProvider(this).get(DashboardViewModel::class.java)
-
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        return binding.root
+    }
 
-        val bottomNavBar: BottomNavigationView? = activity?.findViewById(R.id.nav_view)
-        bottomNavBar?.visibility = View.VISIBLE
-
-        val textView: TextView = binding.textDashboard
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.dashboardButtonSendRequest.setOnClickListener {
+            viewModel.sendRequest()
         }
-        return root
+
+        viewModel.response.observe(viewLifecycleOwner) {
+            binding.dashboardTextview.text = it
+        }
     }
 
     override fun onDestroyView() {

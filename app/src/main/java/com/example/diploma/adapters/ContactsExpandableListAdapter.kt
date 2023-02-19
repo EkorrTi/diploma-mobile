@@ -1,5 +1,6 @@
 package com.example.diploma.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Typeface
 import android.view.LayoutInflater
@@ -8,10 +9,22 @@ import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
 import android.widget.TextView
 import com.example.diploma.R
+import com.example.diploma.models.Worker
 
+@SuppressLint("InflateParams")
 class ContactsExpandableListAdapter(
     private val context: Context
 ): BaseExpandableListAdapter() {
+//    private var listRoles: MutableList<String> = mutableListOf()
+//    var workerList: List<Worker> = emptyList()
+//        set(value) {
+//            field = value
+//            value.forEach {
+//                if (!listRoles.contains(it.roleId))
+//                    listRoles.add(it.roleId)
+//            }
+//        }
+
     private var listTitle: List<String> = emptyList()
     var listDetail: HashMap<String, List<String>> = hashMapOf()
         set(value) {
@@ -58,13 +71,13 @@ class ContactsExpandableListAdapter(
 
         if (convertView == null) {
             val view = inflater.inflate(R.layout.list_contacts_item, null)
-            val expandedItem = view.findViewById<TextView>(R.id.contacts_item)
-            expandedItem?.text = expandedListText
+//            val expandedItem = view.findViewById<TextView>(R.id.contacts_item)
+//            expandedItem?.text = expandedListText
             return view
         }
 
-        val expandedItem = convertView.findViewById<TextView>(R.id.contacts_item)
-        expandedItem.text = expandedListText
+//        val expandedItem = convertView.findViewById<TextView>(R.id.contacts_item)
+//        expandedItem.text = expandedListText
         return convertView
     }
 

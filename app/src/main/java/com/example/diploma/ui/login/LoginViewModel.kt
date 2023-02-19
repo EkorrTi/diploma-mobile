@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.diploma.network.ApiService
 import com.example.diploma.network.ApiServiceObject
 import com.example.diploma.network.SecuredLoginRequest
 import kotlinx.coroutines.launch
@@ -31,8 +32,12 @@ class LoginViewModel : ViewModel() {
 
             try {
                 Log.i("API Login","login started")
+
                 _response.value = ApiServiceObject.retrofitService.postLogin(securedLoginRequest)
+                ApiServiceObject.token = _response.value.toString()
+
                 Log.i("API Login", "Login successful, token = ${_response.value}")
+                Log.i("API Login", "ApiServiceObject.token = ${ApiServiceObject.token}")
             } catch (e: SocketTimeoutException) { throw e }
             catch (e: Exception) { Log.w("API Login", e.toString()) }
         }

@@ -1,5 +1,7 @@
 package com.example.diploma.network
 
+import com.example.diploma.models.Worker
+import com.example.diploma.network.ApiServiceObject.token
 import com.example.diploma.network.models.*
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
@@ -15,11 +17,10 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 import java.util.concurrent.TimeUnit
-
+// 10.0.2.2    device address
 private const val BASE_URL = "http://10.0.2.2:8080"
 
 val gson: Gson = GsonBuilder()
-    .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
     .serializeNulls()
     .create()
 
@@ -36,11 +37,10 @@ private val retrofit = Retrofit.Builder()
     .baseUrl(BASE_URL)
     .build()
 
-var token: String = ""
-    get() = "Bearer $field"
-    set
-
 object ApiServiceObject {
+    var token: String = ""
+        get() = "Bearer $field"
+
     val retrofitService: ApiService by lazy {
         retrofit.create(ApiService::class.java)
     }
@@ -48,34 +48,22 @@ object ApiServiceObject {
 
 interface ApiService {
     @POST("/login")
-    suspend fun postLogin(
-        @Body securedLoginRequest: SecuredLoginRequest
-    ): String
+    suspend fun postLogin( @Body securedLoginRequest: SecuredLoginRequest ): String
 
     @GET("/schedule")
-    suspend fun getSchedule(
-        @Header("Authorization") bearer: String = token
-    )
+    suspend fun getSchedule( @Header("Authorization") bearer: String = token )
 
     @GET("/contacts")
-    suspend fun getContacts(// value = "Bearer {token}"
-        @Header("Authorization") bearer: String = token
-    ): ContactsResponse
+    suspend fun getContacts( @Header("Authorization") bearer: String = token ): List<Worker>
 
-    @POST("/request")
-    suspend fun postRequest(
-        @Header("Authorization") bearer: String = token
-    )
+    @POST("/vacation")
+    suspend fun postRequest( @Header("Authorization") bearer: String = token ): String
 
-    @GET("/request_status")
-    suspend fun getRequestStatus(
-        @Header("Authorization") bearer: String = token
-    )
+    @GET("/requestStatus")
+    suspend fun getRequestStatus( @Header("Authorization") bearer: String = token ): String
 
     @GET("/production")
-    suspend fun getProductionStatus(
-        @Header("Authorization") bearer: String = token
-    )
+    suspend fun getProductionStatus( @Header("Authorization") bearer: String = token )
 }
 
 data class SecuredLoginRequest(
