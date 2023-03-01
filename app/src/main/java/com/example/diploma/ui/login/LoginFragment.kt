@@ -12,8 +12,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavOptions
+import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.fragment.findNavController
 import com.example.diploma.CFASApplication
+import com.example.diploma.R
 import com.example.diploma.database.DatabaseViewModel
 import com.example.diploma.database.DatabaseViewModelFactory
 import com.example.diploma.databinding.FragmentLoginBinding
@@ -63,6 +66,7 @@ class LoginFragment : Fragment() {
         loginViewModel.token.observe(viewLifecycleOwner) {
             databaseViewModel.updateToken(it)
             val action = LoginFragmentDirections.actionNavigationLoginToNavigationHome()
+
             findNavController().navigate(action)
         }
 

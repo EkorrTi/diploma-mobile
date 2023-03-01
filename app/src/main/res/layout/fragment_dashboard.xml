@@ -7,13 +7,36 @@
     tools:context=".ui.dashboard.DashboardFragment">
 
     <TextView
+        android:id="@+id/dashboard_start_date_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="76dp"
+        android:padding="10dp"
+        android:text="@string/pick_starting_date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Start date: 2002-12-12"/>
+
+    <TextView
+        android:id="@+id/dashboard_end_date_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="76dp"
+        android:layout_marginEnd="18dp"
+        android:padding="10dp"
+        android:text="@string/pick_ending_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="End date: 2002-12-12" />
+
+    <TextView
         android:id="@+id/dashboard_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="10dp"
         android:paddingVertical="10dp"
         app:layout_constraintBottom_toTopOf="@+id/dashboard_button_send_request"
-        app:layout_constraintTop_toTopOf="parent"
         android:text="@string/dummy_long"/>
 
     <Button

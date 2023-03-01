@@ -6,6 +6,19 @@
     app:startDestination="@id/navigation_login">
 
     <fragment
+        android:id="@+id/navigation_login"
+        android:name="com.example.diploma.ui.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_navigation_login_to_navigation_home"
+            app:destination="@id/navigation_home"
+            app:exitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/navigation_login"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.diploma.ui.home.HomeFragment"
         android:label="@string/title_home"
@@ -22,13 +35,5 @@
         android:name="com.example.diploma.ui.contacts.ContactsFragment"
         android:label="@string/title_contacts"
         tools:layout="@layout/fragment_contacts" />
-    <fragment
-        android:id="@+id/navigation_login"
-        android:name="com.example.diploma.ui.login.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
-        <action
-            android:id="@+id/action_navigation_login_to_navigation_home"
-            app:destination="@id/navigation_home" />
-    </fragment>
+
 </navigation>

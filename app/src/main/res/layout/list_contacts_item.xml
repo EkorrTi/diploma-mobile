@@ -1,32 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="?android:attr/listPreferredItemHeight">
 
     <TextView
         android:id="@+id/contacts_item_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="?android:attr/expandableListPreferredItemPaddingLeft"
-        android:paddingEnd="?android:attr/expandableListPreferredItemPaddingLeft"
+
+        android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+        android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
         android:paddingTop="10dp"
-        android:paddingBottom="0dp"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/dummy_long" />
+        tools:text="Firstname Lastname - Manager" />
 
     <TextView
         android:id="@+id/contacts_item_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="?android:attr/expandableListPreferredItemPaddingLeft"
-        android:paddingEnd="?android:attr/expandableListPreferredItemPaddingLeft"
-        android:paddingTop="0dp"
+
+        android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+        android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
         android:paddingBottom="10dp"
+
         android:fontFamily="sans-serif-light"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/contacts_item_name"
-        tools:text="@string/dummy_number"/>
+        tools:text="87074206969"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

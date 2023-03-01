@@ -1,5 +1,6 @@
 package com.example.diploma.adapters
 
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +25,8 @@ class ContactsRecyclerViewAdapter : RecyclerView.Adapter<ContactsRecyclerViewAda
     override fun onBindViewHolder(holder: ContactsRecyclerViewHolder, position: Int) {
         val person = data[position]
         // insert text for name - role
-        holder.contactsName.text = "${person.firstName} ${person.lastName} - ${person.roleId}"
+        holder.contactsName.text = Resources.getSystem().getString(R.string.contacts_name, person.firstName, person.lastName, person.roleId)
+        //"${person.firstName} ${person.lastName} - ${person.roleId}"
         // insert text for phone
         holder.contactsPhone.text = person.phone
     }

@@ -7,16 +7,21 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.diploma.R
 import com.example.diploma.databinding.FragmentHomeBinding
 import com.example.diploma.network.SecuredLoginRequest
 import com.example.diploma.network.gson
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.ktx.app
 
 class HomeFragment : Fragment() {
+    //TODO how to implement schedule
 
     private var _binding: FragmentHomeBinding? = null
+    private val viewModel: HomeViewModel by viewModels()
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
@@ -26,21 +31,8 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-
-        val button: Button = binding.sendGetButton
-        button.setOnClickListener { homeViewModel.get() }
-
-        return root
+        return binding.root
     }
 
     override fun onDestroyView() {

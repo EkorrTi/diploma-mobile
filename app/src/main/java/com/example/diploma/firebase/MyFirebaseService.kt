@@ -5,8 +5,12 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.util.Log
 import androidx.core.app.NotificationManagerCompat
+import com.example.diploma.network.ApiService
+import com.example.diploma.network.ApiServiceObject
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.supervisorScope
 
 const val TAG = "FIREBASE SERVICE"
 
@@ -103,5 +107,6 @@ class MyFirebaseService: FirebaseMessagingService() {
         private fun sendRegistrationToServer(token: String?) {
         // TODO: Implement this method to send token to your app server.
         Log.d(TAG, "sendRegistrationTokenToServer($token)")
+
     }
 }

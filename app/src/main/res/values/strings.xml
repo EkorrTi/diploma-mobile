@@ -16,5 +16,14 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <!--  Home fragment strings  -->
+    <!--  Dashboard fragment strings  -->
+    <string name="start_date">Start date: %s</string>
+    <string name="end_date">End date: %s</string>
+    <string name="pick_starting_date">Pick a starting date</string>
+    <string name="pick_ending_date">Pick the ending date</string>
+    <!--  Contacts fragment strings  -->
+    <string name="contacts_name">%s %s - %s</string>
+    <!--  General error strings  -->
     <string name="timeout_error">Server took too long to answer, please check your internet connection</string>
 </resources>
