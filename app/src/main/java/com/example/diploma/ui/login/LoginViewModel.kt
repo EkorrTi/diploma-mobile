@@ -1,45 +1,48 @@
 package com.example.diploma.ui.login
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.diploma.network.ApiService
 import com.example.diploma.network.ApiServiceObject
 import com.example.diploma.network.SecuredLoginRequest
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.net.SocketTimeoutException
 
 class LoginViewModel : ViewModel() {
-    // The internal MutableLiveData that stores the status of the most recent request
-    private val _response = MutableLiveData<String>()
+    private val _loginState = MutableStateFlow<LoginState>(LoginState.Empty)
+    val loginState = _loginState.asStateFlow()
 
-    // The external immutable LiveData for the request status
-    val token: LiveData<String> = _response
+    sealed class LoginState {
+        object Empty : LoginState()
+        object Loading : LoginState()
+        data class Success(val result: String) : LoginState()
+        data class Error(val error: Throwable) : LoginState()
+    }
 
     /**
      * Logs the user with given credentials to the server, and gets a Bearer token
      * @param username Email
      * @param password Password
-     * @return Bearer token - as LiveData
      */
     fun login(username: String, password: String){
         viewModelScope.launch {
             val securedLoginRequest = encodedRequest(username, password)
-
-            Log.i("API Login","Sent data: $securedLoginRequest")
+            Log.i("API Login", "Sent data: $securedLoginRequest")
 
             try {
-                Log.i("API Login","login started")
+                Log.i("API Login", "login started")
+                _loginState.value = LoginState.Loading
+                _loginState.value = LoginState.Success(
+                    ApiServiceObject.retrofitService.postLogin(securedLoginRequest)
+                )
 
-                _response.value = ApiServiceObject.retrofitService.postLogin(securedLoginRequest)
-                ApiServiceObject.token = _response.value.toString()
-
-                Log.i("API Login", "Login successful, token = ${_response.value}")
+                ApiServiceObject.token = (loginState.value as LoginState.Success).result
                 Log.i("API Login", "ApiServiceObject.token = ${ApiServiceObject.token}")
-            } catch (e: SocketTimeoutException) { throw e }
-            catch (e: Exception) { Log.w("API Login", e.toString()) }
+            } catch (e: Exception) {
+                Log.w("API Login", e.toString())
+                _loginState.value = LoginState.Error(e)
+            }
         }
     }
 
@@ -47,7 +50,7 @@ class LoginViewModel : ViewModel() {
      * Encodes user credentials before sending
      * @param username Email
      * @param password Password
-     * @return [SecuredLoginRequest]
+     * @return [SecuredLoginRequest] with given username & password
      * */
     private fun encodedRequest(username: String, password: String): SecuredLoginRequest{
         fun encode(value: String): List<Byte> {

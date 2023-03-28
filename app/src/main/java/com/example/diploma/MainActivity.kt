@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -38,43 +39,29 @@ class MainActivity : AppCompatActivity() {
         // Hides app bar & bottom nav on certain fragments
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
+                // Hide all navigation when on login screen
                 R.id.navigation_login -> {
-                    navView.visibility = View.GONE
-                    supportActionBar?.hide()
+                    navView.isVisible = false
+                    //supportActionBar?.hide()
                 }
-
+                // Show navigation when on screen that are part of BottomNav
                 in listOf(
                     R.id.navigation_home,
                     R.id.navigation_dashboard,
                     R.id.navigation_contacts
                 ) -> {
-                    navView.visibility = View.VISIBLE
+                    navView.isVisible = true
                     supportActionBar?.show()
                     supportActionBar?.setDisplayHomeAsUpEnabled(false)
                 }
-
+                // Hide BottomNav if anything else
                 else -> {
-                    navView.visibility = View.GONE
+                    navView.isVisible = false
                     supportActionBar?.show()
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 }
             }
         }
-
-        // TODO WTF this does Firebase
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            val tag = "FIREBASE"
-            if (!task.isSuccessful) {
-                Log.w(tag, "Fetching FCM registration token failed", task.exception)
-                return@OnCompleteListener
-            }
-
-            // Get new FCM registration token
-            val token = task.result
-
-            // Log and toast
-            Log.d(tag, "Token - $token")
-        })
     }
 
     override fun onSupportNavigateUp(): Boolean {

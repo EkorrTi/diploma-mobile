@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:layout_marginTop="?attr/actionBarSize"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.vacations.VacationFragment">
+
+    <TextView
+        android:id="@+id/vacation_start_date_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="40dp"
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/pick_starting_date"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        tools:text="Start date:\n2002-12-12" />
+
+    <TextView
+        android:id="@+id/vacation_end_date_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_marginEnd="18dp"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/vacation_start_date_textview"
+        android:text="@string/pick_ending_date"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        tools:text="End date:\n2002-12-12" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:padding="10dp"
+        android:text="@string/choose_the_option"
+        app:layout_constraintStart_toStartOf="@id/vacation_type_options"
+        app:layout_constraintTop_toBottomOf="@+id/vacation_start_date_textview" />
+
+    <RadioGroup
+        android:id="@+id/vacation_type_options"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checkedButton="@id/option_sickleave"
+        app:layout_constraintStart_toStartOf="@+id/vacation_start_date_textview"
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+        <RadioButton
+            android:id="@+id/option_sickleave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sick_leave" />
+
+        <RadioButton
+            android:id="@+id/option_vacation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/vacation" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/vacation_button_send_request"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/send_vacation_request"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

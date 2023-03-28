@@ -28,12 +28,21 @@
         android:id="@+id/navigation_dashboard"
         android:name="com.example.diploma.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_navigation_dashboard_to_vacationFragment"
+            app:destination="@id/vacationFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_contacts"
         android:name="com.example.diploma.ui.contacts.ContactsFragment"
         android:label="@string/title_contacts"
         tools:layout="@layout/fragment_contacts" />
+    <fragment
+        android:id="@+id/vacationFragment"
+        android:name="com.example.diploma.ui.vacations.VacationFragment"
+        android:label="fragment_vacation"
+        tools:layout="@layout/fragment_vacation" />
 
 </navigation>

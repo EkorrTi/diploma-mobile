@@ -1,5 +1,6 @@
 package com.example.diploma.network
 
+import com.example.diploma.models.Schedule
 import com.example.diploma.models.Worker
 import com.example.diploma.network.ApiServiceObject.token
 import com.example.diploma.network.models.*
@@ -56,7 +57,7 @@ interface ApiService {
     suspend fun postLogin( @Body securedLoginRequest: SecuredLoginRequest ): String
 
     @GET("/schedule")
-    suspend fun getSchedule( @Header("Authorization") bearer: String = token )
+    suspend fun getSchedule( @Header("Authorization") bearer: String = token ): List<Schedule>
 
     @GET("/contacts")
     suspend fun getContacts( @Header("Authorization") bearer: String = token ): List<Worker>
@@ -65,6 +66,7 @@ interface ApiService {
     suspend fun postRequest(
         @Query("start_date") startDate: LocalDate,
         @Query("end_date") endDate: LocalDate,
+        @Query("type") type: String,
         @Header("Authorization") bearer: String = token
     ): String
 
@@ -72,7 +74,7 @@ interface ApiService {
     suspend fun getRequestStatus( @Header("Authorization") bearer: String = token ): String
 
     @GET("/production")
-    suspend fun getProductionStatus( @Header("Authorization") bearer: String = token )
+    suspend fun getProductionStatus( @Header("Authorization") bearer: String = token ): Int
 
     @POST("/firebaseToken")
     suspend fun postFirebaseToken( @Body token: String )
