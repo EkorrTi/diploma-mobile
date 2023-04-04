@@ -8,16 +8,32 @@ import androidx.lifecycle.viewModelScope
 import com.example.diploma.network.ApiService
 import com.example.diploma.network.ApiServiceObject
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
+
+private const val TAG = "Dashboard ViewModel"
 
 class DashboardViewModel : ViewModel() {
-    private var _response = MutableLiveData<Int>()
-    val response : LiveData<Int> = _response
+    private var _responseProduction = MutableLiveData<Int>()
+    val responseProduction : LiveData<Int> = _responseProduction
+
+    private var _responseRequests = MutableLiveData<List<Int>>()
+    val responseRequests : LiveData<List<Int>> = _responseRequests
 
     fun getProductionStatus(){
         viewModelScope.launch {
             try {
-                _response.value = ApiServiceObject.retrofitService.getProductionStatus()
-            } catch (e: Exception) { Log.w("API GET", e.toString()) }
+                val resp: Double = ApiServiceObject.retrofitService.getProductionStatus()
+                Log.i(TAG, resp.toString())
+                _responseProduction.value = resp.roundToInt()
+            } catch (e: Exception) { Log.w(TAG, e.toString()) }
+        }
+    }
+
+    fun getRequestsList(){
+        viewModelScope.launch {
+            try {
+                ApiServiceObject.retrofitService.getRequestStatus()
+            } catch (e: Exception) { Log.w(TAG, e.toString()) }
         }
     }
 }

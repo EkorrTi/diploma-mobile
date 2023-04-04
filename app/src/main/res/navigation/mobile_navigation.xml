@@ -32,6 +32,9 @@
         <action
             android:id="@+id/action_navigation_dashboard_to_vacationFragment"
             app:destination="@id/vacationFragment" />
+        <action
+            android:id="@+id/action_navigation_dashboard_to_teamFragment"
+            app:destination="@id/teamFragment" />
     </fragment>
 
     <fragment
@@ -44,5 +47,10 @@
         android:name="com.example.diploma.ui.vacations.VacationFragment"
         android:label="fragment_vacation"
         tools:layout="@layout/fragment_vacation" />
+    <fragment
+        android:id="@+id/teamFragment"
+        android:name="com.example.diploma.ui.team.TeamFragment"
+        android:label="fragment_team"
+        tools:layout="@layout/fragment_team" />
 
 </navigation>
