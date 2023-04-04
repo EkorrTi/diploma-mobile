@@ -2,12 +2,14 @@ package com.example.diploma.ui.login
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -21,6 +23,7 @@ import com.example.diploma.R
 import com.example.diploma.database.DatabaseViewModel
 import com.example.diploma.database.DatabaseViewModelFactory
 import com.example.diploma.databinding.FragmentLoginBinding
+import com.example.diploma.network.ApiServiceObject
 import com.example.diploma.ui.login.LoginViewModel.LoginState
 import kotlinx.coroutines.launch
 
@@ -36,17 +39,29 @@ class LoginFragment : Fragment() {
         )
     }
 
+    private lateinit var sp: SharedPreferences
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        setHasOptionsMenu(false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = getString(R.string.title_login)
+        sp = requireActivity().getSharedPreferences(
+            getString(R.string.app_name),
+            Context.MODE_PRIVATE
+        )
+        // If login token exists = user logged in -> skip login
+        if (sp.getString("login_token", "") != "") {
+            ApiServiceObject.token =  sp.getString("login_token", "")!!
+            navigateHome()
+        }
 
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = getString(R.string.title_login)
         binding.loginButton.setOnClickListener {
             // HIDE KEYBOARD
             (context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
@@ -90,6 +105,10 @@ class LoginFragment : Fragment() {
 
                         is LoginState.Success -> {
                             databaseViewModel.updateToken(state.result)
+                            sp.edit {
+                                putString("login_token", state.result)
+                                commit()
+                            }
                             navigateHome()
                         }
 
