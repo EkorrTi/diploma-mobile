@@ -1,5 +1,6 @@
 package com.example.diploma.adapters
 
+import android.content.Context
 import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.diploma.R
 import com.example.diploma.models.Worker
 
-class ContactsRecyclerViewAdapter : RecyclerView.Adapter<ContactsRecyclerViewAdapter.ContactsRecyclerViewHolder>() {
+class ContactsRecyclerViewAdapter(private val context: Context) : RecyclerView.Adapter<ContactsRecyclerViewAdapter.ContactsRecyclerViewHolder>() {
     var data: List<Worker> = emptyList()
         set(value) {
             field = value
@@ -18,14 +19,14 @@ class ContactsRecyclerViewAdapter : RecyclerView.Adapter<ContactsRecyclerViewAda
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactsRecyclerViewHolder {
         val adapterLayout = LayoutInflater.from(parent.context)
-            .inflate(R.layout.list_contacts_item, parent, false)
+            .inflate(R.layout.list_item_contacts, parent, false)
         return ContactsRecyclerViewHolder(adapterLayout)
     }
 
     override fun onBindViewHolder(holder: ContactsRecyclerViewHolder, position: Int) {
         val person = data[position]
         // insert text for name - role
-        holder.contactsName.text = Resources.getSystem().getString(R.string.contacts_name, person.firstName, person.lastName, person.roleId)
+        holder.contactsName.text = context.getString(R.string.contacts_name, person.firstName, person.lastName, person.roleId)
         //"${person.firstName} ${person.lastName} - ${person.roleId}"
         // insert text for phone
         holder.contactsPhone.text = person.phone

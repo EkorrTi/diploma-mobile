@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent"
 
         tools:itemCount="5"
-        tools:listitem="@layout/list_contacts_item" />
+        tools:listitem="@layout/list_item_contacts" />
 
     <ProgressBar
         android:id="@+id/contacts_progress_bar"
