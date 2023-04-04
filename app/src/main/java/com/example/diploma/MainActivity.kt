@@ -2,6 +2,8 @@ package com.example.diploma
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -36,13 +38,13 @@ class MainActivity : AppCompatActivity() {
         // Setup the action\app bar
         setupActionBarWithNavController(navController)
 
-        // Hides app bar & bottom nav on certain fragments
+        // Hides app bar and/or bottom nav on certain fragments
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 // Hide all navigation when on login screen
                 R.id.navigation_login -> {
                     navView.isVisible = false
-                    //supportActionBar?.hide()
+                    supportActionBar?.hide()
                 }
                 // Show navigation when on screen that are part of BottomNav
                 in listOf(
@@ -79,5 +81,15 @@ class MainActivity : AppCompatActivity() {
 
             else -> super.onBackPressed()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.bottom_nav_menu, menu) // TODO change menu to Logout, ?
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        Log.i("Options menu", "seelected")
+        return super.onOptionsItemSelected(item)
     }
 }

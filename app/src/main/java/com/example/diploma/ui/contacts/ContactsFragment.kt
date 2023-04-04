@@ -30,12 +30,12 @@ class ContactsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentContactsBinding.inflate(inflater, container, false)
+        setHasOptionsMenu(false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val adapter = ContactsRecyclerViewAdapter()
+        val adapter = ContactsRecyclerViewAdapter(requireContext())
         val recyclerView = binding.contactsRecyclerView
 
         viewModel.response.observe(viewLifecycleOwner) {
