@@ -19,6 +19,10 @@
     <string name="login_failed">"Login failed"</string>
     <!--  Home fragment strings  -->
     <!--  Dashboard fragment strings  -->
+    <string name="vacation_sick_leave_request">Vacation/Sick Leave request</string>
+    <string name="team_request">Team request</string>
+    <string name="percentage_text">%d%%</string>
+    <!--  Vacation & Team request strings  -->
     <string name="start_date">Start date:\n%s</string>
     <string name="end_date">End date:\n%s</string>
     <string name="pick_starting_date">Pick a\nstarting date</string>

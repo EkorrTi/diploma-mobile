@@ -22,11 +22,8 @@ class MyFirebaseService: FirebaseMessagingService() {
      * Called when Message is received when app is in foreground
      */
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
         Log.d(TAG, "From: ${remoteMessage.from}")
-
-
 
         // Check if message contains a data payload.
         if (remoteMessage.data.isNotEmpty()) {
@@ -47,17 +44,18 @@ class MyFirebaseService: FirebaseMessagingService() {
 
             val title = it.title
             val text = it.body
-            val CHANNEL_ID = "FIREBASESSSSS"
-            val channel: NotificationChannel = NotificationChannel(CHANNEL_ID, "MA FIREBASE", NotificationManager.IMPORTANCE_LOW)
+            val channelId = "fcm_default_channel"
+            val channel = NotificationChannel(channelId, "MA FIREBASE", NotificationManager.IMPORTANCE_LOW)
 
             getSystemService(NotificationManager::class.java).createNotificationChannel(channel)
 
-            val notification = Notification.Builder(this, CHANNEL_ID)
+            val notification = Notification.Builder(this, channelId)
                 .setContentTitle(title)
                 .setContentText(text)
                 .setAutoCancel(true)
+                .build()
 
-            NotificationManagerCompat.from(this).notify(1, notification.build())
+            NotificationManagerCompat.from(this).notify(0, notification)
         }
 
         // Also if you intend on generating your own notifications as a result of a received FCM

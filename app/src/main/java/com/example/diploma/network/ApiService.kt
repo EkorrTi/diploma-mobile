@@ -5,22 +5,19 @@ import com.example.diploma.models.Worker
 import com.example.diploma.network.ApiServiceObject.token
 import com.example.diploma.network.models.*
 import com.google.gson.FieldNamingPolicy
-import com.google.gson.FieldNamingStrategy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
-import kotlinx.coroutines.flow.Flow
-import okhttp3.Authenticator
 import okhttp3.OkHttpClient
+import okhttp3.ResponseBody
+import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
-import retrofit2.http.Query
 import java.time.LocalDate
-import java.util.Date
 import java.util.concurrent.TimeUnit
 // 10.0.2.2    device address
 private const val BASE_URL = "http://10.0.2.2:8080"
@@ -52,6 +49,7 @@ object ApiServiceObject {
     }
 }
 
+// TODO: adjust paths according to API
 interface ApiService {
     @POST("/login")
     suspend fun postLogin( @Body securedLoginRequest: SecuredLoginRequest ): String
@@ -63,18 +61,24 @@ interface ApiService {
     suspend fun getContacts( @Header("Authorization") bearer: String = token ): List<Worker>
 
     @POST("/vacation")
-    suspend fun postRequest(
-        @Query("start_date") startDate: LocalDate,
-        @Query("end_date") endDate: LocalDate,
-        @Query("type") type: String,
+    suspend fun postVacationRequest(
+        @Body startDate: LocalDate,
+        @Body endDate: LocalDate,
+        @Body type: String,
         @Header("Authorization") bearer: String = token
     ): String
+
+    @POST("/team")
+    suspend fun postTeamRequest(
+        @Body type: String,
+        @Header("Authorization") bearer: String = token
+    )
 
     @GET("/requestStatus")
     suspend fun getRequestStatus( @Header("Authorization") bearer: String = token ): String
 
     @GET("/production")
-    suspend fun getProductionStatus( @Header("Authorization") bearer: String = token ): Int
+    suspend fun getProductionStatus( @Header("Authorization") bearer: String = token ): Double
 
     @POST("/firebaseToken")
     suspend fun postFirebaseToken( @Body token: String )
