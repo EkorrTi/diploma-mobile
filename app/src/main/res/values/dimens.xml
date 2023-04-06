@@ -8,4 +8,14 @@
 
     <dimen name="defaultTextSize">6pt</dimen>
     <dimen name="enlargedTextSize">8pt</dimen>
+    <dimen name="hugeTextSize">48sp</dimen>
+
+    <dimen name="padding_s">8dp</dimen>
+    <dimen name="padding_m">16dp</dimen>
+
+    <dimen name="padding_card">16dp</dimen>
+
+    <dimen name="elevation_s">12dp</dimen>
+    <dimen name="elevation_m">24dp</dimen>
+    <dimen name="elevation_l">30dp</dimen>
 </resources>

@@ -1,10 +1,12 @@
 package com.example.diploma.adapters
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.diploma.R
@@ -28,17 +30,31 @@ class RequestsRecyclerViewAdapter : RecyclerView.Adapter<RequestsRecyclerViewAda
     }
 
     override fun onBindViewHolder(holder: RequestsRecyclerViewHolder, position: Int) {
-        // insert text for name - role
+        if (data.isEmpty()){
+            holder.requestDetails.apply {
+                text = resources.getString(R.string.no_requests)
+            }
+            return
+        }
+        // insert text for type and time
         holder.requestDetails.text = "Vacation - 02/01/2002 -> 09/01/2002"
-        //"${person.firstName} ${person.lastName} - ${person.roleId}"
-        // insert text for phone
+        // insert text for status
         holder.requestStatus.text = "Approved - 25/12/2001"
+        // TODO Set the image depending on the status of the request
+        if (true)
+            holder.requestImage.setImageResource(R.drawable.ic_baseline_check_24)
+        else
+            holder.requestImage.setImageResource(R.drawable.ic_baseline_close_24)
     }
 
-    override fun getItemCount(): Int = 5
+    override fun getItemCount(): Int {
+        if (data.isEmpty()) return 1
+        return data.size
+    }
 
     class RequestsRecyclerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val requestDetails: TextView = view.findViewById(R.id.request_item_details)
         val requestStatus: TextView = view.findViewById(R.id.request_item_status)
+        val requestImage: ImageView = view.findViewById(R.id.request_item_image)
     }
 }

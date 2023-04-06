@@ -45,11 +45,6 @@ class DashboardFragment : Fragment(){
             binding.dashboardProgressBar.isGone = true
         }
 
-        binding.dashboardRequestStatusSwipeRefreshLayout.setOnRefreshListener {
-            Log.i("swipe", "Swipe refresh initiated")
-            binding.dashboardRequestStatusSwipeRefreshLayout.isRefreshing = false
-        }
-
         // TODO Change layout if user is manager
         if (true) {
             binding.dashboardManagerOnlyGroup.isVisible = true
@@ -57,19 +52,19 @@ class DashboardFragment : Fragment(){
             val constraintSet = ConstraintSet()
             constraintSet.clone(binding.root)
             constraintSet.connect(
-                binding.dashboardRequestStatusSwipeRefreshLayout.id,  ConstraintSet.TOP,
-                binding.dashboardLinearProgress.id,                   ConstraintSet.BOTTOM
+                binding.dashboardRequestStatusRecyclerView.id,  ConstraintSet.TOP,
+                binding.dashboardLinearProgress.id,             ConstraintSet.BOTTOM
             )
             constraintSet.applyTo( binding.root )
         }
 
-        binding.dashboardToVacationButton.setOnClickListener {
+        binding.dashboardToLeaveRequestButton.setOnClickListener{
             val action = DashboardFragmentDirections.actionNavigationDashboardToVacationFragment()
             findNavController().navigate(action)
         }
 
-        binding.dashboardToTeamButton.setOnClickListener {
-            val action = DashboardFragmentDirections.actionNavigationDashboardToVacationFragment()
+        binding.dashboardToTeamRequestButton.setOnClickListener {
+            val action = DashboardFragmentDirections.actionNavigationDashboardToTeamFragment()
             findNavController().navigate(action)
         }
     }

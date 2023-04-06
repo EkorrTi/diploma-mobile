@@ -1,5 +1,6 @@
 package com.example.diploma.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.view.LayoutInflater
@@ -10,7 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.diploma.R
 import com.example.diploma.models.Worker
 
-class ContactsRecyclerViewAdapter(private val context: Context) : RecyclerView.Adapter<ContactsRecyclerViewAdapter.ContactsRecyclerViewHolder>() {
+@SuppressLint("NotifyDataSetChanged")
+class ContactsRecyclerViewAdapter : RecyclerView.Adapter<ContactsRecyclerViewAdapter.ContactsRecyclerViewHolder>() {
     var data: List<Worker> = emptyList()
         set(value) {
             field = value
@@ -24,9 +26,12 @@ class ContactsRecyclerViewAdapter(private val context: Context) : RecyclerView.A
     }
 
     override fun onBindViewHolder(holder: ContactsRecyclerViewHolder, position: Int) {
+        // TODO navigate to Profile
         val person = data[position]
         // insert text for name - role
-        holder.contactsName.text = context.getString(R.string.contacts_name, person.firstName, person.lastName, person.roleId)
+        holder.contactsName.apply {
+            text = resources.getString(R.string.contacts_name, person.firstName, person.lastName, person.roleId)
+        }
         //"${person.firstName} ${person.lastName} - ${person.roleId}"
         // insert text for phone
         holder.contactsPhone.text = person.phone

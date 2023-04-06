@@ -1,34 +1,29 @@
 package com.example.diploma.ui.vacations
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.DatePickerDialog
-import android.app.Dialog
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.ArrayAdapter
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.diploma.R
-import com.example.diploma.databinding.FragmentDashboardBinding
 import com.example.diploma.databinding.FragmentVacationBinding
-import java.text.SimpleDateFormat
-import java.time.LocalDate
+import java.time.ZoneId
 import java.util.*
 
-class VacationFragment : Fragment(), DatePickerDialog.OnDateSetListener {
+class VacationFragment : Fragment() {
     private var _binding: FragmentVacationBinding? = null
     private val viewModel: VacationViewModel by viewModels()
     private var isStartSelected = true
 
-    private var start: LocalDate = LocalDate.now()
-    private var end: LocalDate = LocalDate.now()
+    private lateinit var start : Calendar
+    private lateinit var end : Calendar
 
     private val binding get() = _binding!!
 
@@ -37,6 +32,7 @@ class VacationFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentVacationBinding.inflate(inflater, container, false)
+        setHasOptionsMenu(false)
         return binding.root
     }
 
@@ -44,89 +40,110 @@ class VacationFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         (requireActivity() as AppCompatActivity).supportActionBar?.title = getString(R.string.title_vacation)
 
         binding.vacationButtonSendRequest.setOnClickListener {
-            if (start.compareTo(LocalDate.now()) < 1 ||  // Should be after today
-                end.compareTo(start) < 1 // Should be after start
-            ) {
-                AlertDialog.Builder(requireContext())
-                    .setTitle(R.string.error)
-                    .setMessage(R.string.error_invalid_date)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.ok) { dialog, _ -> dialog.dismiss() }
-                    .show()
-                return@setOnClickListener
+            if (!::start.isInitialized){
+                showAlertDialog(R.string.pick_starting_date)
+            } else if (!::end.isInitialized){
+                showAlertDialog(R.string.pick_ending_date)
             }
 
-            val type = when (binding.vacationTypeOptions.checkedRadioButtonId) {
-                R.id.option_sickleave -> "sick"
-                else -> "vacation"
-            }
+            //val zoneId = ZoneId.systemDefault() // TODO this doesn't work
+            //val startDate = start.toInstant().atZone(zoneId).toLocalDate()
+            //val endDate = end.toInstant().atZone(zoneId).toLocalDate()
 
-            viewModel.sendRequest(start, end, type)
+//            Log.i("Vacation", "Sent a request for $startDate to $endDate")
+            Log.i("Vacation", "Sent a request")
+            //viewModel.sendRequest(startDate, endDate, "")
         }
 
-        //TODO better way?
-        binding.vacationStartDateTextview.setOnClickListener {
+        binding.vacationStartDateEditText.setOnClickListener {
             isStartSelected = true
             showDatePickerDialog()
         }
 
-        binding.vacationEndDateTextview.setOnClickListener {
+        binding.vacationEndDateEditText.setOnClickListener {
             isStartSelected = false
             showDatePickerDialog()
         }
+
+        val spinnerAdapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.leave_type_dropdown,
+            android.R.layout.simple_spinner_item
+        )
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.vacationSpinner.adapter = spinnerAdapter
     }
 
-    class DatePicker( private val listener: DatePickerDialog.OnDateSetListener ): DialogFragment() {
-        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-            val c = Calendar.getInstance()
+    private fun showAlertDialog(@StringRes message: Int){
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.error)
+            .setMessage(message)
+            .setCancelable(false)
+            .setPositiveButton(R.string.ok) { dialog, _ -> dialog.dismiss() }
+            .show()
+    }
 
-            return DatePickerDialog(
-                requireContext(),
-                listener,
-                c.get(Calendar.YEAR),
-                c.get(Calendar.MONTH),
-                c.get(Calendar.DAY_OF_MONTH)
-            )
+    private fun showDatePickerDialog() {
+        // Stop if clicked on end date, w/o selecting start
+        if (!isStartSelected && !::start.isInitialized){
+            showAlertDialog(R.string.pick_starting_date)
+            return
         }
-    }
 
-    @SuppressLint("SimpleDateFormat")
-    override fun onDateSet(view: android.widget.DatePicker?, y: Int, m: Int, d: Int) {
-        val cal = Calendar.getInstance()
-        cal.set(y, m, d)
-        val dateString = SimpleDateFormat("yyyy-MM-dd").format(cal.time)
-        val date = LocalDate.parse(dateString)
+        val c = Calendar.getInstance()
+        c.add(Calendar.DAY_OF_MONTH, 1)
 
-        Log.i("Dashboard Date","Picked = $y-$m-$d \\ $date")
+        val datePickerDialog = DatePickerDialog(
+            requireContext(),
+            { _, y, m, d ->
+                val cal = Calendar.getInstance()
+                cal.set(y,m,d)
 
-        if (isStartSelected) {
-            if ( !date.isAfter(LocalDate.now()) && !date.isBefore(end) ) {
-                AlertDialog.Builder(requireContext())
-                    .setTitle(R.string.error)
-                    .setMessage(R.string.error_invalid_date)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.ok) { dialog, _ -> dialog.dismiss() }
-                    .show()
-                return
-            }
+                val selectedDate = "$d/${m+1}/$y"
 
-            binding.vacationStartDateTextview.text = getString(R.string.start_date, dateString)
-            start = date
-        } else {
-            if ( !date.isAfter(start) ) {
-                AlertDialog.Builder(requireContext())
-                    .setTitle(R.string.error)
-                    .setMessage(R.string.error_invalid_date)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.ok) { dialog, _ -> dialog.dismiss() }
-                    .show()
-                return
-            }
+                Log.i("Dashboard Date","Picked = $selectedDate")
 
-            binding.vacationEndDateTextview.text = getString(R.string.end_date, dateString)
-            end = date
+                if (isStartSelected) {
+                    binding.vacationStartDateEditText.setText(selectedDate)
+                    start = cal.clone() as Calendar
+                } else {
+                    binding.vacationEndDateEditText.setText(selectedDate)
+                    end = cal.clone() as Calendar
+                }
+            },
+            c[Calendar.YEAR], c[Calendar.MONTH], c[Calendar.DAY_OF_MONTH]
+        )
+
+        if (isStartSelected)
+            datePickerDialog.datePicker.minDate = c.timeInMillis
+        else {
+            val s: Calendar = start.clone() as Calendar
+            s.add(Calendar.DAY_OF_MONTH, 1)
+            datePickerDialog.datePicker.minDate = s.timeInMillis
         }
+
+        datePickerDialog.show()
     }
 
-    private fun showDatePickerDialog() = DatePicker(this).show(parentFragmentManager, "datePicker")
+
+/*    class DatePicker( private val listener: DatePickerDialog.OnDateSetListener, private val isStartSelected: Boolean ): DialogFragment() {
+//        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+//            val c = Calendar.getInstance()
+//            c.add(Calendar.DAY_OF_MONTH, 1)
+//            val datePickerDialog = DatePickerDialog(
+//                requireContext(),
+//                listener,
+//                c.get(Calendar.YEAR),
+//                c.get(Calendar.MONTH),
+//                c.get(Calendar.DAY_OF_MONTH)
+//            )
+//
+//            if (isStartSelected)
+//                datePickerDialog.datePicker.minDate = c.timeInMillis
+//            else
+//                datePickerDialog.datePicker.minDate =
+//            // TODO set maxDate according to days left
+//            return datePickerDialog
+//        }
+//    } */
 }

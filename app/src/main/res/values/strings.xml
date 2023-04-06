@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">Diploma</string>
-    <string name="title_login">Login</string>
+    <string name="app_name">AutoAdmin</string>
+    <string name="title_login">Log in</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
-    <string name="title_contacts">Contacts</string>
+    <string name="title_contacts">Team</string>
     <string name="title_vacation">Request</string>
     <!-- Dummy strings -->
     <string name="dummy_short">I am texting</string>
@@ -19,9 +19,11 @@
     <string name="login_failed">"Login failed"</string>
     <!--  Home fragment strings  -->
     <!--  Dashboard fragment strings  -->
-    <string name="vacation_sick_leave_request">Vacation/Sick Leave request</string>
-    <string name="team_request">Team request</string>
+    <string name="request_a_leave">Request a Leave</string>
+    <string name="request_team_changes">Request Team changes</string>
     <string name="percentage_text">%d%%</string>
+    <string name="production_progress">Production Progress</string>
+    <string name="no_requests">No Requests to show</string>
     <!--  Vacation & Team request strings  -->
     <string name="start_date">Start date:\n%s</string>
     <string name="end_date">End date:\n%s</string>
@@ -30,7 +32,23 @@
     <string name="choose_the_option">Choose the option</string>
     <string name="sick_leave">Sick Leave</string>
     <string name="vacation">Vacation</string>
-    <string name="send_vacation_request">Send vacation request</string>
+    <string name="send_request">Send request</string>
+    <string name="starting_date">Starting Date</string>
+    <string name="select_date">Select Date</string>
+    <string name="ending_date">Ending Date</string>
+    <string name="reason_for_leaving">Reason for leaving</string>
+
+    <string-array name="leave_type_dropdown">
+        <item>Sick Leave</item>
+        <item>Vacation</item>
+        <item>Paternity leave</item>
+        <item>Maternity leave</item>
+    </string-array>
+
+    <!-- ActionBar Options menu -->
+    <string name="logout">Logout</string>
+    <string name="notifications">Notifications</string>
+    <string name="profile">Profile</string>
     <!--  Contacts fragment strings  -->
     <string name="contacts_name">%s %s - %s</string>
     <!--  General error strings  -->

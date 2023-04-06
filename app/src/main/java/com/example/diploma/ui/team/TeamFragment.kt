@@ -11,13 +11,14 @@ import com.example.diploma.databinding.FragmentTeamBinding
 class TeamFragment : Fragment() {
     private var _binding: FragmentTeamBinding? = null
     private val viewModel: TeamViewModel by viewModels()
-    private val binding = _binding!!
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTeamBinding.inflate(inflater, container, false)
+        setHasOptionsMenu(false)
         return binding.root
     }
 }

@@ -4,33 +4,46 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight">
+    android:layout_height="wrap_content"
+    android:padding="@dimen/padding_card">
+
+    <ImageView
+        android:id="@+id/contacts_item_avatar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/round_frame"
+        android:backgroundTint="?android:textColor"
+        app:tint="?android:textColor"
+        android:src="@drawable/ic_baseline_person_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/app_name" />
 
     <TextView
         android:id="@+id/contacts_item_name"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-
-        android:paddingStart="?android:attr/listPreferredItemPaddingStart"
-        android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
-        android:paddingTop="10dp"
-
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/contacts_item_avatar"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Firstname Lastname - Manager" />
 
     <TextView
-        android:id="@+id/contacts_item_phone"
-        android:layout_width="match_parent"
+        android:id="@+id/contacts_item_email"
+        android:layout_width="0dp"
+        android:layout_marginTop="4dp"
         android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/contacts_item_name"
+        app:layout_constraintTop_toBottomOf="@+id/contacts_item_name"
+        tools:text="my_email@gmail.com" />
 
-        android:paddingStart="?android:attr/listPreferredItemPaddingStart"
-        android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
-        android:paddingBottom="10dp"
-
-        android:fontFamily="sans-serif-light"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/contacts_item_name"
-        tools:text="87074206969"/>
+    <TextView
+        android:id="@+id/contacts_item_phone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/contacts_item_name"
+        app:layout_constraintTop_toBottomOf="@id/contacts_item_email"
+        tools:text="87074206969" />
 </androidx.constraintlayout.widget.ConstraintLayout>

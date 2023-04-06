@@ -11,7 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.diploma.R
+import com.example.diploma.adapters.ScheduleRecyclerViewAdapter
 import com.example.diploma.databinding.FragmentHomeBinding
 import com.example.diploma.network.SecuredLoginRequest
 import com.example.diploma.network.gson
@@ -32,8 +34,7 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         viewModel.fcmToken(
-            requireActivity()
-                .getSharedPreferences(
+            requireActivity().getSharedPreferences(
                     getString(R.string.app_name),
                     Context.MODE_PRIVATE
                 )
@@ -42,8 +43,11 @@ class HomeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        // TODO schedule list recycler or normal list?
+        val adapter = ScheduleRecyclerViewAdapter()
+        binding.homeScheduleRecyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            this.adapter = adapter
+        }
     }
 
     override fun onDestroyView() {

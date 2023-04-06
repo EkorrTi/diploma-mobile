@@ -84,12 +84,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.bottom_nav_menu, menu) // TODO change menu to Logout, ?
+        menuInflater.inflate(R.menu.options_menu, menu) // TODO change menu to Logout, ?
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        Log.i("Options menu", "seelected")
+        when (item.itemId){
+            R.id.options_menu_logout -> {
+                Log.i("Options menu", "LOGOUT")
+            }
+        }
+        Log.i("Options menu", "selected")
         return super.onOptionsItemSelected(item)
     }
 }

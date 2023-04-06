@@ -35,7 +35,7 @@ class ContactsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val adapter = ContactsRecyclerViewAdapter(requireContext())
+        val adapter = ContactsRecyclerViewAdapter()
         val recyclerView = binding.contactsRecyclerView
 
         viewModel.response.observe(viewLifecycleOwner) {
