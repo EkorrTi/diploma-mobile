@@ -53,12 +53,19 @@ object ApiServiceObject {
 interface ApiService {
     @POST("/login")
     suspend fun postLogin( @Body securedLoginRequest: SecuredLoginRequest ): String
+    // С токеном вместе еще шли юзера полную инфу
+
+    // TODO logout?
 
     @GET("/schedule")
     suspend fun getSchedule( @Header("Authorization") bearer: String = token ): List<Schedule>
+    // Ну понятно тут, по соответствующей команде
+
+    // TODO getEvents - список событий на эту неделю по порядку, дни недели > дата\время
 
     @GET("/contacts")
     suspend fun getContacts( @Header("Authorization") bearer: String = token ): List<Worker>
+    // Все люди в моей команде, кроме меня конечно
 
     @POST("/vacation")
     suspend fun postVacationRequest(
@@ -67,21 +74,26 @@ interface ApiService {
         @Body type: String,
         @Header("Authorization") bearer: String = token
     ): String
+    // Ответ типо Принял\Ошибка т.д.
 
     @POST("/team")
     suspend fun postTeamRequest(
         @Body type: String,
         @Header("Authorization") bearer: String = token
     )
+    // Ответ типо Принял\Ошибка т.д.
 
     @GET("/requestStatus")
     suspend fun getRequestStatus( @Header("Authorization") bearer: String = token ): String
+    // Ответ List<VacationRequest + TeamRequests? (если они совмещяемы)> сортированный по дате недавно->давно
 
     @GET("/production")
     suspend fun getProductionStatus( @Header("Authorization") bearer: String = token ): Double
+    // Просто проценты наверно
 
     @POST("/firebaseToken")
     suspend fun postFirebaseToken( @Body token: String )
+    // Ответ типо Принял\Ошибка т.д.
 }
 
 data class SecuredLoginRequest(
