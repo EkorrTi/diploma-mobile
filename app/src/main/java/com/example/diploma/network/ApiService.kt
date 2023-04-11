@@ -51,23 +51,23 @@ object ApiServiceObject {
 
 // TODO: adjust paths according to API
 interface ApiService {
-    @POST("/login")
+    @POST("/auth/login")
     suspend fun postLogin( @Body securedLoginRequest: SecuredLoginRequest ): String
     // С токеном вместе еще шли юзера полную инфу
 
     // TODO logout?
 
-    @GET("/schedule")
+    @GET("/manufacture-api/external/schedule")
     suspend fun getSchedule( @Header("Authorization") bearer: String = token ): List<Schedule>
     // Ну понятно тут, по соответствующей команде
 
     // TODO getEvents - список событий на эту неделю по порядку, дни недели > дата\время
 
-    @GET("/contacts")
+    @GET("/user-api/external/team-members")
     suspend fun getContacts( @Header("Authorization") bearer: String = token ): List<Worker>
     // Все люди в моей команде, кроме меня конечно
 
-    @POST("/vacation")
+    @POST("/manufacture-api/external/requests")
     suspend fun postVacationRequest(
         @Body startDate: LocalDate,
         @Body endDate: LocalDate,
@@ -76,16 +76,21 @@ interface ApiService {
     ): String
     // Ответ типо Принял\Ошибка т.д.
 
-    @POST("/team")
+    @POST("/manufacture-api/external/requests")
     suspend fun postTeamRequest(
         @Body type: String,
         @Header("Authorization") bearer: String = token
     )
-    // Ответ типо Принял\Ошибка т.д.
 
-    @GET("/requestStatus")
-    suspend fun getRequestStatus( @Header("Authorization") bearer: String = token ): String
+    // postVacationRequest и postTeamRequest обьедини в один, будешь отправлять AbstractRequest, и там же укажешь RequestType
+    // Ответ типо Принял\Ошибка т.д. // Ответ будет созданный AbstractRequest
+
+    @GET("/manufacture-api/external/requests/my-requests")
+    suspend fun getRequestStatusAsApplicant( @Header("Authorization") bearer: String = token ):  // List<AbstractRequest>
     // Ответ List<VacationRequest + TeamRequests? (если они совмещяемы)> сортированный по дате недавно->давно
+
+    @GET("/manufacture-api/external/requests/subordinate-requests")
+    suspend fun getRequestStatusAsResponsible( @Header("Authorization") bearer: String = token ): String // List<AbstractRequest>
 
     @GET("/production")
     suspend fun getProductionStatus( @Header("Authorization") bearer: String = token ): Double
