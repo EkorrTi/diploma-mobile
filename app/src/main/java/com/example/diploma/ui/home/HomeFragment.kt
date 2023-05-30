@@ -33,12 +33,6 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        viewModel.fcmToken(
-            requireActivity().getSharedPreferences(
-                    getString(R.string.app_name),
-                    Context.MODE_PRIVATE
-                )
-        )
         return binding.root
     }
 

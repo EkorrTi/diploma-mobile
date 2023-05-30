@@ -13,6 +13,7 @@ import com.example.diploma.models.Worker
 
 @SuppressLint("NotifyDataSetChanged")
 class ContactsRecyclerViewAdapter : RecyclerView.Adapter<ContactsRecyclerViewAdapter.ContactsRecyclerViewHolder>() {
+    var onClick:((Worker) -> Unit)? = null
     var data: List<Worker> = emptyList()
         set(value) {
             field = value
@@ -26,21 +27,27 @@ class ContactsRecyclerViewAdapter : RecyclerView.Adapter<ContactsRecyclerViewAda
     }
 
     override fun onBindViewHolder(holder: ContactsRecyclerViewHolder, position: Int) {
-        // TODO navigate to Profile
         val person = data[position]
         // insert text for name - role
         holder.contactsName.apply {
-            text = resources.getString(R.string.contacts_name, person.firstName, person.lastName, person.roleId)
+            text = resources.getString(
+                R.string.contacts_name,
+                person.firstName,
+                person.lastName,
+                person.specialization //TODO handle specialization
+            )
         }
-        //"${person.firstName} ${person.lastName} - ${person.roleId}"
+        holder.contactsEmail.text = person.email
         // insert text for phone
         holder.contactsPhone.text = person.phone
+        holder.itemView.setOnClickListener { onClick?.invoke(person) }
     }
 
     override fun getItemCount(): Int = data.size
 
     class ContactsRecyclerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val contactsName: TextView = view.findViewById(R.id.contacts_item_name)
+        val contactsEmail: TextView = view.findViewById(R.id.contacts_item_email)
         val contactsPhone: TextView = view.findViewById(R.id.contacts_item_phone)
     }
 }

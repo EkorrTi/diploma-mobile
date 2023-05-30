@@ -55,9 +55,9 @@ class LoginFragment : Fragment() {
             getString(R.string.app_name),
             Context.MODE_PRIVATE
         )
-        // If login token exists = user logged in -> skip login
-        if (sp.getString("login_token", "") != "") {
-            ApiServiceObject.token =  sp.getString("login_token", "")!!
+        // If login token exists -> user logged in -> skip login
+        if (sp.getInt("login_token", 0) != 0) {
+            ApiServiceObject.token =  sp.getInt("login_token", 0).toString()
             navigateHome()
         }
 
@@ -106,7 +106,7 @@ class LoginFragment : Fragment() {
                         is LoginState.Success -> {
                             databaseViewModel.updateToken(state.result)
                             sp.edit {
-                                putString("login_token", state.result)
+                                putInt("login_token", state.result.id)
                                 commit()
                             }
                             navigateHome()

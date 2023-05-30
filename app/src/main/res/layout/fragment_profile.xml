@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/padding_m"
+    tools:context=".ui.profile.ProfileFragment">
+
+    <ImageView
+        android:id="@+id/profile_avatar"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:background="@drawable/round_frame"
+        android:backgroundTint="?android:textColor"
+        app:tint="?android:textColor"
+        android:src="@drawable/ic_baseline_person_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/app_name" />
+
+    <TextView
+        android:id="@+id/profile_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textStyle="bold"
+        android:textSize="@dimen/bigTextSize"
+        app:layout_constraintStart_toEndOf="@+id/profile_avatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Firstname Lastname" />
+
+    <TextView
+        android:id="@+id/profile_role"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_s"
+        android:textSize="@dimen/bigTextSize"
+        app:layout_constraintStart_toStartOf="@+id/profile_name"
+        app:layout_constraintTop_toBottomOf="@+id/profile_name"
+        tools:text="Manager" />
+
+    <ImageView
+        android:id="@+id/profile_email_image"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="?android:textColor"
+        app:tint="?android:textColor"
+        android:src="@drawable/ic_baseline_email_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_avatar"
+        android:contentDescription="@string/app_name"/>
+
+    <TextView
+        android:id="@+id/profile_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_m"
+        android:textSize="@dimen/bigTextSize"
+        app:layout_constraintBottom_toBottomOf="@+id/profile_email_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/profile_email_image"
+        app:layout_constraintTop_toTopOf="@+id/profile_email_image"
+        tools:text="my_email@gmail.com" />
+
+    <ImageView
+        android:id="@+id/profile_phone_image"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="@dimen/padding_m"
+        android:contentDescription="@string/app_name"
+        android:backgroundTint="?android:textColor"
+        app:tint="?android:textColor"
+        android:src="@drawable/ic_baseline_contact_phone_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_email_image" />
+
+    <TextView
+        android:id="@+id/profile_phone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_m"
+        android:textSize="@dimen/bigTextSize"
+        app:layout_constraintBottom_toBottomOf="@+id/profile_phone_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/profile_phone_image"
+        app:layout_constraintTop_toTopOf="@+id/profile_phone_image"
+        tools:text="87074206969" />
+
+    <TextView
+        android:id="@+id/profile_department"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_m"
+        android:textSize="@dimen/bigTextSize"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_phone_image"
+        tools:text="Department ID: 1" />
+
+    <TextView
+        android:id="@+id/profile_team"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_m"
+        android:textSize="@dimen/bigTextSize"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_department"
+        tools:text="Team ID: 1" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

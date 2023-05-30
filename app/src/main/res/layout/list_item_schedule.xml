@@ -37,14 +37,25 @@
             android:textStyle="italic"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/schedule_item_day"
-            android:text="2 events"/>
+            tools:text="2 events"/>
+
+        <TextView
+            android:id="@+id/schedule_item_events"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            app:layout_constraintTag="expanded"
+            app:layout_constraintStart_toStartOf="@+id/schedule_item_day"
+            app:layout_constraintTop_toBottomOf="@+id/schedule_item_time"
+            android:textSize="@dimen/enlargedTextSize"
+            tools:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n\naaaaaaaaaaaaaaaaaaaaa\n\n" />
 
         <androidx.constraintlayout.widget.Group
-            android:id="@+id/schedule_item_expanded_group"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:id="@+id/schedule_item_expand_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_tags="expanded"
             android:visibility="gone"
-            app:constraint_referenced_tags="expanded"/>
-
+            tools:visibility="visible"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

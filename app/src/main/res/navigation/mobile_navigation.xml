@@ -41,7 +41,11 @@
         android:id="@+id/navigation_contacts"
         android:name="com.example.diploma.ui.contacts.ContactsFragment"
         android:label="@string/title_contacts"
-        tools:layout="@layout/fragment_contacts" />
+        tools:layout="@layout/fragment_contacts" >
+        <action
+            android:id="@+id/action_navigation_contacts_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/vacationFragment"
         android:name="com.example.diploma.ui.vacations.VacationFragment"
@@ -52,5 +56,14 @@
         android:name="com.example.diploma.ui.team.TeamFragment"
         android:label="fragment_team"
         tools:layout="@layout/fragment_team" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.diploma.ui.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <argument
+            android:name="worker"
+            app:argType="com.example.diploma.models.Worker" />
+    </fragment>
 
 </navigation>

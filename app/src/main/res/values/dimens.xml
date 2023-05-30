@@ -8,6 +8,8 @@
 
     <dimen name="defaultTextSize">6pt</dimen>
     <dimen name="enlargedTextSize">8pt</dimen>
+    <dimen name="bigTextSize">10pt</dimen>
+    <dimen name="biggerTextSize">12pt</dimen>
     <dimen name="hugeTextSize">48sp</dimen>
 
     <dimen name="padding_s">8dp</dimen>

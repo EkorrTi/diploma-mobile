@@ -28,34 +28,5 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    fun fcmToken( sp: SharedPreferences ){
-        FirebaseMessaging.getInstance().token.addOnCompleteListener{ task ->
-            if (task.isSuccessful){
-                val cachedToken = sp.getString("fcm_token", "")
-                val token = task.result
-                Log.d("HomeViewModel FCM", "FCM Token: $token      Cached token: $cachedToken")
 
-                if (cachedToken != token) {
-                    sp.edit {
-                        putString("fcm_token", token)
-                        commit()
-                    }
-                    sendFcmToken(token)
-                }
-            } else {
-                Log.e(TAG, task.exception.toString())
-            }
-        }
-    }
-
-    private fun sendFcmToken(token: String){
-        Log.i(TAG, "Sending the FCM token to server")
-        viewModelScope.launch {
-            try {
-                ApiServiceObject.retrofitService.postFirebaseToken(token)
-            } catch (e: Exception) {
-                Log.w(TAG, e.toString())
-            }
-        }
-    }
 }

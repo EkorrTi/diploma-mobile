@@ -5,9 +5,9 @@ import com.example.diploma.network.models.BearerToken
 import kotlinx.coroutines.launch
 
 class DatabaseViewModel(private val cfasDao: CFASDao): ViewModel() {
-    fun updateToken(token: String) {
+    fun updateToken(token: BearerToken) {
         viewModelScope.launch {
-            cfasDao.updateToken(BearerToken(token = token))
+            cfasDao.updateToken(token)
         }
     }
 }

@@ -1,22 +1,19 @@
 package com.example.diploma
 
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.diploma.databinding.ActivityMainBinding
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.messaging.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
@@ -72,7 +69,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         when (navController.currentDestination?.id) {
-            R.id.navigation_home -> finish()
+            in listOf(
+                R.id.navigation_home
+            )-> finish()
 
             in listOf(
                 R.id.navigation_dashboard,
@@ -89,12 +88,33 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId){
+        return when (item.itemId){
             R.id.options_menu_logout -> {
-                Log.i("Options menu", "LOGOUT")
+                val sp = getSharedPreferences(
+                    getString(R.string.app_name),
+                    Context.MODE_PRIVATE
+                )
+                sp.edit {
+                    putString("login_token", null)
+                }
+
+                navController.navigate(R.id.navigation_login, null,
+                    NavOptions.Builder()
+                        .setPopUpTo(R.id.navigation_home, true)
+                        .build()
+                )
+                true
             }
+
+            R.id.options_menu_notification -> {
+                true
+            }
+
+            R.id.options_menu_profile -> {
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
         }
-        Log.i("Options menu", "selected")
-        return super.onOptionsItemSelected(item)
     }
 }

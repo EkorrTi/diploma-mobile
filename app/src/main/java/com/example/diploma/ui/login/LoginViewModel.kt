@@ -1,23 +1,49 @@
 package com.example.diploma.ui.login
 
+import android.content.SharedPreferences
 import android.util.Log
+import androidx.core.content.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.diploma.network.ApiServiceObject
 import com.example.diploma.network.SecuredLoginRequest
+import com.example.diploma.network.models.BearerToken
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
+    private val TAG = "LoginViewModel"
     private val _loginState = MutableStateFlow<LoginState>(LoginState.Empty)
     val loginState = _loginState.asStateFlow()
+    private var fcmToken = ""
 
     sealed class LoginState {
         object Empty : LoginState()
         object Loading : LoginState()
-        data class Success(val result: String) : LoginState()
+        data class Success(val result: BearerToken) : LoginState()
         data class Error(val error: Throwable) : LoginState()
+    }
+
+    fun fcmToken( sp: SharedPreferences){
+        FirebaseMessaging.getInstance().token.addOnCompleteListener{ task ->
+            if (task.isSuccessful){
+                val cachedToken = sp.getString("fcm_token", "")
+                val token = task.result
+                Log.d(TAG, "FCM Token: $token      Cached token: $cachedToken")
+
+                if (cachedToken != token) {
+                    sp.edit {
+                        putString("fcm_token", token)
+                        commit()
+                    }
+                    fcmToken = token
+                }
+            } else {
+                Log.e(TAG, task.exception.toString())
+            }
+        }
     }
 
     /**
@@ -37,7 +63,7 @@ class LoginViewModel : ViewModel() {
                     ApiServiceObject.retrofitService.postLogin(securedLoginRequest)
                 )
 
-                ApiServiceObject.token = (loginState.value as LoginState.Success).result
+                ApiServiceObject.token = (loginState.value as LoginState.Success).result.id.toString()
                 Log.i("API Login", "ApiServiceObject.token = ${ApiServiceObject.token}")
             } catch (e: Exception) {
                 Log.w("API Login", e.toString())

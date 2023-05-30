@@ -30,12 +30,10 @@ class RequestsRecyclerViewAdapter : RecyclerView.Adapter<RequestsRecyclerViewAda
     }
 
     override fun onBindViewHolder(holder: RequestsRecyclerViewHolder, position: Int) {
-        if (data.isEmpty()){
-            holder.requestDetails.apply {
-                text = resources.getString(R.string.no_requests)
-            }
-            return
-        }
+//        if (data.isEmpty()){
+//            holder.requestDetails.apply { text = resources.getString(R.string.no_requests) }
+//            return
+//        }
         // insert text for type and time
         holder.requestDetails.text = "Vacation - 02/01/2002 -> 09/01/2002"
         // insert text for status
@@ -48,7 +46,7 @@ class RequestsRecyclerViewAdapter : RecyclerView.Adapter<RequestsRecyclerViewAda
     }
 
     override fun getItemCount(): Int {
-        if (data.isEmpty()) return 1
+        if (data.isEmpty()) return 2
         return data.size
     }
 

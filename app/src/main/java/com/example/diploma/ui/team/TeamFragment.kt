@@ -13,12 +13,16 @@ class TeamFragment : Fragment() {
     private val viewModel: TeamViewModel by viewModels()
     private val binding get() = _binding!!
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setHasOptionsMenu(false)
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTeamBinding.inflate(inflater, container, false)
-        setHasOptionsMenu(false)
         return binding.root
     }
 }

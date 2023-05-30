@@ -11,8 +11,10 @@ data class Worker(
     val lastName: String,
     val username: String,
     val phone: String,
-    val roleId: String,
-    val companyId: String,
-    val departmentId: String,
-    val teamId: String,
-)
+    val email: String,
+    val department: String,
+    val factory: String,
+    val team: String,
+    val company: String,
+    val specialization: String,
+): java.io.Serializable

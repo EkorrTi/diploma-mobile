@@ -18,6 +18,8 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <!--  Home fragment strings  -->
+    <string name="event_count">%d events</string>
+    <string name="events_list">%s\n\n</string>
     <!--  Dashboard fragment strings  -->
     <string name="request_a_leave">Request a Leave</string>
     <string name="request_team_changes">Request Team changes</string>
@@ -51,6 +53,9 @@
     <string name="profile">Profile</string>
     <!--  Contacts fragment strings  -->
     <string name="contacts_name">%s %s - %s</string>
+    <!-- Profile fragment strings -->
+    <string name="email_copied">Email copied!</string>
+    <string name="phone_copied">Phone copied!</string>
     <!--  General error strings  -->
     <string name="error">Error</string>
     <string name="error_timeout">Server took too long to answer, please check your internet connection and try again</string>
