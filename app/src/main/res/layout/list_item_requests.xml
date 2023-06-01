@@ -33,6 +33,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/ic_baseline_check_24" />
+        tools:src="@drawable/ic_baseline_hourglass_empty_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

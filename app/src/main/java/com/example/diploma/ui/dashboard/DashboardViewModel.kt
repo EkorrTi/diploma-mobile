@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.diploma.network.ApiService
 import com.example.diploma.network.ApiServiceObject
+import com.example.diploma.network.models.RequestResponse
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -16,8 +17,8 @@ class DashboardViewModel : ViewModel() {
     private var _responseProduction = MutableLiveData<Int>()
     val responseProduction : LiveData<Int> = _responseProduction
 
-    private var _responseRequests = MutableLiveData<List<Int>>()
-    val responseRequests : LiveData<List<Int>> = _responseRequests
+    private var _responseRequests = MutableLiveData<List<RequestResponse>>()
+    val responseRequests : LiveData<List<RequestResponse>> = _responseRequests
 
     fun getProductionStatus(){
         viewModelScope.launch {
@@ -32,7 +33,8 @@ class DashboardViewModel : ViewModel() {
     fun getRequestsList(){
         viewModelScope.launch {
             try {
-                ApiServiceObject.retrofitService.getRequestStatus()
+                _responseRequests.value = ApiServiceObject.retrofitService.getRequestStatus()
+                Log.i(TAG, responseRequests.value.toString())
             } catch (e: Exception) { Log.w(TAG, e.toString()) }
         }
     }

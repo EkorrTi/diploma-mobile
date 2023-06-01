@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.diploma.R
 import com.example.diploma.adapters.ScheduleRecyclerViewAdapter
 import com.example.diploma.databinding.FragmentHomeBinding
-import com.example.diploma.network.SecuredLoginRequest
+import com.example.diploma.models.Schedule
 import com.example.diploma.network.gson
 import com.google.android.gms.common.util.SharedPreferencesUtils
 import com.google.firebase.ktx.Firebase
@@ -37,11 +37,17 @@ class HomeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewModel.response.observe(viewLifecycleOwner){
+            binding.homeScheduleRecyclerView.apply {
+                (adapter as ScheduleRecyclerViewAdapter).data = it
+            }
+        }
         val adapter = ScheduleRecyclerViewAdapter()
         binding.homeScheduleRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             this.adapter = adapter
         }
+        viewModel.getSchedule()
     }
 
     override fun onDestroyView() {

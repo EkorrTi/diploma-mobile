@@ -55,7 +55,8 @@ class MyFirebaseService: FirebaseMessagingService() {
                 .setAutoCancel(true)
                 .build()
 
-            NotificationManagerCompat.from(this).notify(0, notification)
+//            NotificationManagerCompat.from(this).notify(0, notification)
+            Log.d(TAG, notification.toString())
         }
 
         // Also if you intend on generating your own notifications as a result of a received FCM

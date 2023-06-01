@@ -95,7 +95,8 @@ class MainActivity : AppCompatActivity() {
                     Context.MODE_PRIVATE
                 )
                 sp.edit {
-                    putString("login_token", null)
+                    putString("login_username", "")
+                    putString("user_role", "")
                 }
 
                 navController.navigate(R.id.navigation_login, null,

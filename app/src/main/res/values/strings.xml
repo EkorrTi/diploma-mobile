@@ -10,7 +10,7 @@
     <string name="dummy_long">I am texting for much longer than previously</string>
     <string name="dummy_number">87074206969</string>
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
+    <string name="prompt_email">Username</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
@@ -47,6 +47,8 @@
         <item>Maternity leave</item>
     </string-array>
 
+    <string name="request_ok">Your request has been registered</string>
+
     <!-- ActionBar Options menu -->
     <string name="logout">Logout</string>
     <string name="notifications">Notifications</string>
@@ -54,12 +56,17 @@
     <!--  Contacts fragment strings  -->
     <string name="contacts_name">%s %s - %s</string>
     <!-- Profile fragment strings -->
+    <string name="department">Department: %s</string>
+    <string name="team">Team: %s</string>
     <string name="email_copied">Email copied!</string>
     <string name="phone_copied">Phone copied!</string>
     <!--  General error strings  -->
+    <string name="success">Success</string>
     <string name="error">Error</string>
+    <string name="error_unknown">Unknown error has happened</string>
     <string name="error_timeout">Server took too long to answer, please check your internet connection and try again</string>
-    <string name="error_credentials">"Please fill your credentials"</string>
-    <string name="error_invalid_date">"Please provide valid dates.\nStarting date should be at least after today.\nEnding date should be at least after starting date."</string>
+    <string name="error_credentials">Please fill your credentials</string>
+    <string name="error_not_filled">Please fill all the required fields</string>
+    <string name="error_invalid_date">Please provide valid dates.\nStarting date should be at least after today.\nEnding date should be at least after starting date.</string>
     <string name="ok">OK</string>
 </resources>

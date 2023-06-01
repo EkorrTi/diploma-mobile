@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.viewModels
@@ -20,7 +21,6 @@ import com.example.diploma.models.Worker
 
 class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
-    private val viewModel: ProfileViewModel by viewModels()
     private val binding get() = _binding!!
     private lateinit var worker: Worker
 
@@ -39,7 +39,14 @@ class ProfileFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = getString(R.string.profile)
+        binding.profileName.text = "${worker.firstName} ${worker.lastName}"
+        binding.profileRole.text = worker.specialization
+        if (worker.email.isNotBlank()) binding.profileEmail.text = worker.email
+        else binding.profileEmail.text = "None"
+        binding.profilePhone.text = worker.phone
+        binding.profileDepartment.text = getString(R.string.department, worker.department)
+        binding.profileTeam.text = getString(R.string.team, worker.team)
 
         // Copy the email/phone to clipboard when clicked
         binding.profileEmail.setOnClickListener {

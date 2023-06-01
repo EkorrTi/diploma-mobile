@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.diploma.R
 import com.example.diploma.adapters.RequestsRecyclerViewAdapter
 import com.example.diploma.databinding.FragmentDashboardBinding
+import com.example.diploma.network.ApiServiceObject
 
 class DashboardFragment : Fragment(){
     private var _binding: FragmentDashboardBinding? = null
@@ -30,23 +31,31 @@ class DashboardFragment : Fragment(){
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.getProductionStatus()
-
-        // TODO request statuses as List
-        val adapter = RequestsRecyclerViewAdapter()
-        binding.dashboardRequestStatusRecyclerView.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            this.adapter = adapter
-        }
-
         viewModel.responseProduction.observe(viewLifecycleOwner){
             binding.dashboardProgressText.text = getString(R.string.percentage_text, it)
             binding.dashboardLinearProgress.progress = it
             binding.dashboardProgressBar.isGone = true
         }
 
-        // TODO Change layout if user is manager
-        if (true) {
+        viewModel.responseRequests.observe(viewLifecycleOwner){
+            binding.dashboardRequestStatusRecyclerView.apply {
+                (adapter as RequestsRecyclerViewAdapter).data = it
+            }
+        }
+
+        // Request statuses as List
+        val adapter = RequestsRecyclerViewAdapter()
+        binding.dashboardRequestStatusRecyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            this.adapter = adapter
+        }
+
+        // Send requests
+        viewModel.getProductionStatus()
+        viewModel.getRequestsList()
+
+        // Change layout if user is manager
+        if (ApiServiceObject.role == "TEAM_LEADER") {
             binding.dashboardManagerOnlyGroup.isVisible = true
 
             val constraintSet = ConstraintSet()

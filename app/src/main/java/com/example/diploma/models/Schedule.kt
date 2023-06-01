@@ -5,7 +5,7 @@ import java.time.LocalTime
 
 data class Schedule(
     val id: Int,
-    val dayOfTheWeek: DayOfWeek,
+    val dayOfWeek: DayOfWeek,
     val startTime: LocalTime,
     val endTime: LocalTime,
     val teamId: Int,

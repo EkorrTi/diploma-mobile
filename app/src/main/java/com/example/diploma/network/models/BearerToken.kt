@@ -7,10 +7,11 @@ import java.util.Date
 
 @Entity
 data class BearerToken (
-    @PrimaryKey
-    val id: Int = 1,
+    val id: String,
 //    val dateTime: LocalDateTime,
     val userId: String,
     val specialization: String,
-    val fcmToken: String
+    val fcmToken: String = "",
+    @PrimaryKey
+    val bearerId: Int = 1,
 )

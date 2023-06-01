@@ -6,7 +6,7 @@ import androidx.core.content.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.diploma.network.ApiServiceObject
-import com.example.diploma.network.SecuredLoginRequest
+import com.example.diploma.network.UnsecureLoginRequest
 import com.example.diploma.network.models.BearerToken
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,8 +38,8 @@ class LoginViewModel : ViewModel() {
                         putString("fcm_token", token)
                         commit()
                     }
-                    fcmToken = token
                 }
+                fcmToken = token
             } else {
                 Log.e(TAG, task.exception.toString())
             }
@@ -53,20 +53,22 @@ class LoginViewModel : ViewModel() {
      */
     fun login(username: String, password: String){
         viewModelScope.launch {
-            val securedLoginRequest = encodedRequest(username, password)
-            Log.i("API Login", "Sent data: $securedLoginRequest")
+            val unsecureLoginRequest = UnsecureLoginRequest(username, password, fcmToken)
+            Log.i("API Login", "Sent data: $unsecureLoginRequest")
 
             try {
                 Log.i("API Login", "login started")
                 _loginState.value = LoginState.Loading
                 _loginState.value = LoginState.Success(
-                    ApiServiceObject.retrofitService.postLogin(securedLoginRequest)
+                    ApiServiceObject.retrofitService.unsecureLogin(unsecureLoginRequest)
                 )
 
-                ApiServiceObject.token = (loginState.value as LoginState.Success).result.id.toString()
+                ApiServiceObject.token = (loginState.value as LoginState.Success).result.id
+                ApiServiceObject.role = (loginState.value as LoginState.Success).result.specialization
+
                 Log.i("API Login", "ApiServiceObject.token = ${ApiServiceObject.token}")
             } catch (e: Exception) {
-                Log.w("API Login", e.toString())
+                Log.e("API Login", e.toString())
                 _loginState.value = LoginState.Error(e)
             }
         }
@@ -78,7 +80,7 @@ class LoginViewModel : ViewModel() {
      * @param password Password
      * @return [SecuredLoginRequest] with given username & password
      * */
-    private fun encodedRequest(username: String, password: String): SecuredLoginRequest{
+    /*private fun encodedRequest(username: String, password: String): SecuredLoginRequest{
         fun encode(value: String): List<Byte> {
             if (value.isEmpty()) { throw Error("Cannot encode empty string") }
 
@@ -117,5 +119,5 @@ class LoginViewModel : ViewModel() {
             encode(username),
             encode(password)
         )
-    }
+    }*/
 }

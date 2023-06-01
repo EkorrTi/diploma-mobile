@@ -12,6 +12,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.diploma.R
 import com.example.diploma.databinding.FragmentVacationBinding
 import java.time.ZoneId
@@ -71,13 +72,18 @@ class VacationFragment : Fragment() {
                 id: Long
             ) {
                 type = when (position) {
-                    1 -> "vacation"
+                    1 -> "vacancy"
                     2 -> "paternity"
                     3 -> "maternity"
                     else -> "sick_leave"
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>) { }
+        }
+
+        viewModel.response.observe(viewLifecycleOwner){
+            if (it.id != null) { showAlertDialog(R.string.success, R.string.request_ok) }
+            else { showAlertDialog(R.string.error_unknown) }
         }
     }
 
@@ -92,12 +98,13 @@ class VacationFragment : Fragment() {
         val endDate = end.toInstant().atZone(end.timeZone.toZoneId()).toLocalDate()
 
         Log.i("Vacation", "Sent a request for $startDate to $endDate, type $type")
-        //viewModel.sendRequest(startDate, endDate, "")
+        viewModel.sendRequest(startDate, endDate, type)
     }
 
-    private fun showAlertDialog(@StringRes message: Int){
+    private fun showAlertDialog(@StringRes message: Int) = showAlertDialog(R.string.error, message)
+    private fun showAlertDialog(@StringRes title: Int, @StringRes message: Int){
         AlertDialog.Builder(requireContext())
-            .setTitle(R.string.error)
+            .setTitle(title)
             .setMessage(message)
             .setCancelable(false)
             .setPositiveButton(R.string.ok) { dialog, _ -> dialog.dismiss() }

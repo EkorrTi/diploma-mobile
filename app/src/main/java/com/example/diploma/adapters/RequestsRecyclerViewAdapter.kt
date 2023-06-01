@@ -11,13 +11,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.diploma.R
 import com.example.diploma.models.Worker
+import com.example.diploma.network.models.RequestResponse
 
 // TODO: Change appropriately to Requests
 // TODO: Make request class
 
 @SuppressLint("NotifyDataSetChanged")
 class RequestsRecyclerViewAdapter : RecyclerView.Adapter<RequestsRecyclerViewAdapter.RequestsRecyclerViewHolder>() {
-    var data: List<Worker> = emptyList()
+    var data: List<RequestResponse> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -30,25 +31,30 @@ class RequestsRecyclerViewAdapter : RecyclerView.Adapter<RequestsRecyclerViewAda
     }
 
     override fun onBindViewHolder(holder: RequestsRecyclerViewHolder, position: Int) {
-//        if (data.isEmpty()){
-//            holder.requestDetails.apply { text = resources.getString(R.string.no_requests) }
-//            return
-//        }
+        if (data.isEmpty()){ // if no requests are in the list
+            holder.requestDetails.apply { text = resources.getString(R.string.no_requests) }
+            return
+        }
+        val item = data[position]
         // insert text for type and time
-        holder.requestDetails.text = "Vacation - 02/01/2002 -> 09/01/2002"
+        holder.requestDetails.text = when (item.requestType){
+            "VACANCY" -> "Vacation"
+            "TEAM" -> "Team change"
+            else -> "Unknown type"
+        }
         // insert text for status
-        holder.requestStatus.text = "Approved - 25/12/2001"
-        // TODO Set the image depending on the status of the request
-        if (true)
-            holder.requestImage.setImageResource(R.drawable.ic_baseline_check_24)
-        else
-            holder.requestImage.setImageResource(R.drawable.ic_baseline_close_24)
+        holder.requestStatus.text = item.status
+
+
+        // Set the image depending on the status of the request
+        when (item.status) {
+            "PENDING" -> { holder.requestImage.setImageResource(R.drawable.ic_baseline_hourglass_empty_24) }
+            "APPROVED" -> { holder.requestImage.setImageResource(R.drawable.ic_baseline_check_24) }
+            else -> { holder.requestImage.setImageResource(R.drawable.ic_baseline_close_24) }
+        }
     }
 
-    override fun getItemCount(): Int {
-        if (data.isEmpty()) return 2
-        return data.size
-    }
+    override fun getItemCount(): Int = data.size
 
     class RequestsRecyclerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val requestDetails: TextView = view.findViewById(R.id.request_item_details)

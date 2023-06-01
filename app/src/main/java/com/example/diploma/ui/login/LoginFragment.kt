@@ -41,6 +41,15 @@ class LoginFragment : Fragment() {
 
     private lateinit var sp: SharedPreferences
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sp = requireActivity().getSharedPreferences(
+            getString(R.string.app_name),
+            Context.MODE_PRIVATE
+        )
+        loginViewModel.fcmToken(sp)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,14 +60,10 @@ class LoginFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        sp = requireActivity().getSharedPreferences(
-            getString(R.string.app_name),
-            Context.MODE_PRIVATE
-        )
-        // If login token exists -> user logged in -> skip login
-        if (sp.getInt("login_token", 0) != 0) {
-            ApiServiceObject.token =  sp.getInt("login_token", 0).toString()
-            navigateHome()
+        // If login username exists -> user logged in before -> fill the username
+        if (sp.getString("login_username", "") != "") {
+            ApiServiceObject.role = sp.getString("user_role", "")!!
+            binding.emailEditText.setText( sp.getString("login_username", "") )
         }
 
         (requireActivity() as AppCompatActivity).supportActionBar?.title = getString(R.string.title_login)
@@ -82,6 +87,10 @@ class LoginFragment : Fragment() {
                 binding.emailEditText.text.toString(),
                 binding.passwordEditText.text.toString()
             )
+            sp.edit{
+                putString("login_username", binding.emailEditText.text.toString())
+                commit()
+            }
         }
 
         // Dynamically update UI and respond to changes to request status
@@ -104,9 +113,9 @@ class LoginFragment : Fragment() {
                             .show()
 
                         is LoginState.Success -> {
-                            databaseViewModel.updateToken(state.result)
+                            //databaseViewModel.updateToken(state.result)
                             sp.edit {
-                                putInt("login_token", state.result.id)
+                                putString("user_role", state.result.specialization)
                                 commit()
                             }
                             navigateHome()

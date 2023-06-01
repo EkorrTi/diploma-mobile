@@ -42,86 +42,46 @@ object ApiServiceObject {
     var token: String = ""
         get() = "Bearer $field"
 
+    var role: String = ""
+
     val retrofitService: ApiService by lazy {
         retrofit.create(ApiService::class.java)
     }
 }
 
-// TODO: adjust paths according to API
 interface ApiService {
     @POST("auth/login/mobile")
-    suspend fun postLogin( @Body securedLoginRequest: SecuredLoginRequest ): BearerToken
-    // С токеном вместе еще шли юзера полную инфу
+    suspend fun unsecureLogin(@Body unsecureLoginRequest: UnsecureLoginRequest): BearerToken
 
-    // TODO logout?
-    @GET("http://server.com")
-    suspend fun something()
+    @GET("manufacture-api/external/schedule/list")
+    suspend fun getSchedule(@Header("Authorization") bearer: String = token): List<Schedule>
 
-    @GET("schedule")
-    suspend fun getSchedule( @Header("Authorization") bearer: String = token ): List<Schedule>
-    // Ну понятно тут, по соответствующей команде
+    @GET("user-api/external/team-members")
+    suspend fun getContacts(@Header("Authorization") bearer: String = token): List<Worker>
 
-    // TODO getEvents - список событий на эту неделю по порядку, дни недели > дата\время
-
-    @GET("user-api/external/users/byDepartment/{depId}")
-    suspend fun getContacts(
-//        @Query("depId") depId: Int,
-        @Header("Authorization") bearer: String = token ): List<Worker>
-    // Все люди в моей команде, кроме меня конечно
-
-    @POST("manufacture-api/external/requests")
+    @POST("manufacture-api/external/requests/vacancy")
     suspend fun postVacationRequest(
-        @Body startDate: LocalDate,
-        @Body endDate: LocalDate,
-        @Body type: String,
+        @Body vacationRequest: VacationRequest,
         @Header("Authorization") bearer: String = token
-    ): String
-    // Ответ типо Принял\Ошибка т.д.
+    ): RequestResponse
 
-    @POST("team")
+    @POST("manufacture-api/external/requests/transfer-team")
     suspend fun postTeamRequest(
-        @Body type: String,
+        @Body teamRequest: TeamRequest,
         @Header("Authorization") bearer: String = token
-    )
-    // Ответ типо Принял\Ошибка т.д.
+    ): RequestResponse
 
     @GET("manufacture-api/external/requests/my-requests")
     suspend fun getRequestStatus(
         @Query("status") status: String = "PENDING", //  PENDING, IN_PROGRESS, REJECTED, ACCEPTED, SOLVED, CLOSED, UNKNOWN
-        @Header("Authorization") bearer: String = token ): String
-    // Ответ List<VacationRequest + TeamRequests? (если они совмещяемы)> сортированный по дате недавно->давно
+        @Header("Authorization") bearer: String = token
+    ): List<RequestResponse>
 
-    @GET("production")
-    suspend fun getProductionStatus( @Header("Authorization") bearer: String = token ): Double
-    // Просто проценты наверно
-
-    @POST("firebaseToken")
-    suspend fun postFirebaseToken( @Body token: String )
-    // Ответ типо Принял\Ошибка т.д.
+    @GET("/manufacture-api/external/production/progress")
+    suspend fun getProductionStatus(@Header("Authorization") bearer: String = token): Double
 }
-
-data class SecuredLoginRequest(
-    @SerializedName("username")
-    val username: List<Byte>,
-    @SerializedName("password")
-    val password: List<Byte>,
-    //val fcmToken: String = ""
-) {
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as SecuredLoginRequest
-
-        if (username != other.username) return false
-        if (password != other.password) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = username.hashCode()
-        result = 31 * result + password.hashCode()
-        return result
-    }
-}
+data class UnsecureLoginRequest(
+    val username: String,
+    val password: String,
+    val fcmToken: String,
+)

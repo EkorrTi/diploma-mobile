@@ -64,7 +64,7 @@ class ScheduleRecyclerViewAdapter : RecyclerView.Adapter<ScheduleRecyclerViewAda
 
         fun bind(item: Schedule){
             // Localize dayOfWeek
-            dayText.text = item.dayOfTheWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
+            dayText.text = item.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
                 .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
             // Time localization
             val formatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT).withLocale(Locale.getDefault())
@@ -73,12 +73,12 @@ class ScheduleRecyclerViewAdapter : RecyclerView.Adapter<ScheduleRecyclerViewAda
             timeText.text = "$localizedStartTime - $localizedEndTime"
             eventCount.apply { text = resources.getString(R.string.event_count, 0) }
             eventsText.text = "No events"
-            // TODO add expanded elements
+
 
             // Toggle the expansion
             itemView.setOnClickListener { expandedGroup.isGone = !expandedGroup.isGone }
             // Expand the current day
-            if (LocalDate.now().dayOfWeek == item.dayOfTheWeek){
+            if (LocalDate.now().dayOfWeek == item.dayOfWeek){
                 eventCount.apply { text = resources.getString(R.string.event_count, 2) }
                 eventsText.apply {
                     var s = resources.getString(R.string.events_list, "Aaron's birthday")
@@ -89,7 +89,6 @@ class ScheduleRecyclerViewAdapter : RecyclerView.Adapter<ScheduleRecyclerViewAda
 //                    val theme = context.theme
 //                    val typedValue = TypedValue()
 //                    theme.resolveAttribute(android.R.attr.windowBackground, typedValue, true)
-//                    // TODO choose color
 //                    backgroundTintList = ColorStateList.valueOf( resources.getColor(typedValue.resourceId) )
 //                }
                 expandedGroup.isGone = false
